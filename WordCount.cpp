@@ -1,8 +1,8 @@
-﻿#include<stdio.h>
+#include<stdio.h>
 #include<string.h>
 #include <stdlib.h>
 
-//统计文件字符数 
+//ͳ���ļ��ַ��� 
 int getChar(FILE* fp)
 {
 	char ch;
@@ -15,17 +15,17 @@ int getChar(FILE* fp)
 	return num;
 }
 
-//统计文件单词数 
+//ͳ���ļ������� 
 int getWord(FILE* fp)
 {
 	int num = 0;
 	int a = 0, b = 0;
-	int flag = 0;  //作为一个标志位，用来判断该字符的前一个字符是否是逗号还是空格
-	char word;   //取出对应位置的字符，用Word去得到它的值
+	int flag = 0;  //��Ϊһ����־λ�������жϸ��ַ���ǰһ���ַ��Ƿ��Ƕ��Ż��ǿո�
+	char word;   //ȡ����Ӧλ�õ��ַ�����Wordȥ�õ�����ֵ
 
-	word = fgetc(fp);   //当读取一个字符后，下次读取前会自动后移到一个字节开始读
+	word = fgetc(fp);   //����ȡһ���ַ����´ζ�ȡǰ���Զ����Ƶ�һ���ֽڿ�ʼ��
 
-	if (word == ' ' || word == ',')//用来判断首字符是否是空格还是逗号
+	if (word == ' ' || word == ',')//�����ж����ַ��Ƿ��ǿո��Ƕ���
 	{
 		flag = 1;
 		num--;
@@ -33,7 +33,7 @@ int getWord(FILE* fp)
 	}
 	while (feof(fp) == 0)
 	{
-		if (flag == 0 && (word == ' ' || word == ','))//判断该字符是否为逗号或空格，若是则它之前的所有字符归为一个单词，单词数加一
+		if (flag == 0 && (word == ' ' || word == ','))//�жϸ��ַ��Ƿ�Ϊ���Ż�ո���������֮ǰ�������ַ���Ϊһ�����ʣ���������һ
 		{
 			num++;
 			flag = 1;
@@ -49,15 +49,15 @@ int getWord(FILE* fp)
 		{
 			num = num;
 		}
-		word = fgetc(fp);   //当读取一个字符后，下次读取前会自动后移到一个字节开始读
+		word = fgetc(fp);   //����ȡһ���ַ����´ζ�ȡǰ���Զ����Ƶ�һ���ֽڿ�ʼ��
 	}
 
-	if (flag == 1)//用来判断末尾字符是否为逗号还是空格
+	if (flag == 1)//�����ж�ĩβ�ַ��Ƿ�Ϊ���Ż��ǿո�
 	{
 		num = a;
 	}
 	rewind(fp);
-	if (a == b)//用来判断中间是否有被重复计算了的单词数目
+	if (a == b)//�����ж��м��Ƿ��б��ظ������˵ĵ�����Ŀ
 	{
 		num = num / 2 + 1;
 	}
@@ -74,34 +74,34 @@ int main(int argc, char* argv[])
 	if (argc == 3)
 	{
 
-		fp = fopen(argv[2], "r");        //读取文件的内容
+		fp = fopen(argv[2], "r");        //��ȡ�ļ�������
 
 		if (fp == NULL)
 		{
-			printf("错误：无法打开%s\n", argv[2]);
+			printf("�����޷���%s\n", argv[2]);
 			exit(1);
-		}     //打开失败
+		}     //��ʧ��
 
 
-			//对参数进行匹配，若为"c"则统计字符数目，若为"w"则统计单词数目，若都不是则报错
+			//�Բ�������ƥ�䣬��Ϊ"c"��ͳ���ַ���Ŀ����Ϊ"w"��ͳ�Ƶ�����Ŀ�����������򱨴�
 		if (!strcmp(argv[1], "-c"))
 		{
 			num = getChar(fp);
-			printf("字符数为：%d\n", num);
+			printf("�ַ���Ϊ��%d\n", num);
 		}
 
 		else if (!strcmp(argv[1], "-w"))
 		{
 			num = getWord(fp);
-			printf("单词数为：%d\n", num);
+			printf("������Ϊ��%d\n", num);
 		}
 		else
 		{
-			printf("参数错误 ！");
+			printf("�������� ��");
 		}
 	}
 	else
 	{
-		printf("错误：参数输入错误，请重新输入\n");
+		printf("���󣺲��������������������\n");
 	}
 }
